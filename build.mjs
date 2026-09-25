@@ -6,7 +6,7 @@
 // the encrypted blob, so nobody can read the invite (or see the photos) without
 // the code — even though the GitHub repo and Pages site are public.
 //
-// Guests get a link like https://<user>.github.io/<repo>/#<code>. The part after
+// Guests get a link like https://joshuaandcharlotte.com/#<code>. The part after
 // "#" never leaves their browser, and it unlocks the page automatically.
 //
 // Usage:  node build.mjs            (uses/creates the code in .invite-code)
@@ -16,7 +16,8 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { webcrypto as crypto } from 'node:crypto';
 import { extname, join } from 'node:path';
 
-const SITE_URL = 'https://jjnrmason.github.io/jc-wedding-invite/';
+const DOMAIN = 'joshuaandcharlotte.com';
+const SITE_URL = `https://${DOMAIN}/`;
 const ITERATIONS = 600_000;
 const CODE_FILE = '.invite-code';
 
@@ -66,6 +67,7 @@ const gate = readFileSync('gate.html', 'utf8')
 mkdirSync('docs', { recursive: true });
 writeFileSync('docs/index.html', gate);
 writeFileSync('docs/.nojekyll', '');
+writeFileSync('docs/CNAME', DOMAIN + '\n'); // custom domain for GitHub Pages
 
 console.log(`Built docs/index.html (${(gate.length / 1024 / 1024).toFixed(1)} MB)`);
 console.log(`Invite code: ${code}`);

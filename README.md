@@ -1,6 +1,7 @@
 # J & C Wedding Invite
 
-The wedding party invite for Joshua & Charlotte, hosted on GitHub Pages from the `docs/` folder on `main`.
+The wedding party invite for Joshua & Charlotte, hosted on GitHub Pages from the `docs/` folder on `main`,
+at https://joshuaandcharlotte.com (domain registered with Cloudflare, DNS pointed at GitHub Pages).
 
 ## How the invite-only access works
 
@@ -11,7 +12,7 @@ are only readable once the right code is entered (AES-256-GCM, key from PBKDF2).
 Guests get a link with the code after the `#`:
 
 ```
-https://jjnrmason.github.io/jc-wedding-invite/#<code>
+https://joshuaandcharlotte.com/#<code>
 ```
 
 The part after `#` is never sent to GitHub. It unlocks the page automatically, gets removed from

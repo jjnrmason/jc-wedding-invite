@@ -1,5 +1,4 @@
-# Unencrypted source — never publish (the repo is public)
-src/
+# Original design files (large; the web-ready copies live in docs/images)
 Assets/
 *.pdf
 .invite-code

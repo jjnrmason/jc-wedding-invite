@@ -1,0 +1,8 @@
+# Unencrypted source — never publish (the repo is public)
+src/
+Assets/
+*.pdf
+.invite-code
+
+.claude/
+.DS_Store

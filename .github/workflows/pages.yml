@@ -1,0 +1,53 @@
+# Publishes the already-built, encrypted invite in docs/ to GitHub Pages.
+#
+# The page is built locally with `node build.mjs` because the unencrypted
+# source (src/) and the invite code are deliberately kept out of this public
+# repo — so this workflow only checks and deploys docs/.
+name: Deploy invite to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+
+      # Safety net: refuse to publish anything that isn't the locked page.
+      - name: Check the page is encrypted
+        run: |
+          if ! grep -q 'var PAYLOAD = {"salt":' docs/index.html; then
+            echo "::error::docs/index.html is not the encrypted build. Run 'node build.mjs' and commit docs/."
+            exit 1
+          fi
+          if grep -qiE 'Shropshire|docs\.google\.com/forms' docs/index.html; then
+            echo "::error::docs/index.html contains readable invite details. Run 'node build.mjs' and commit docs/."
+            exit 1
+          fi
+
+      - uses: actions/configure-pages@v6
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: docs
+
+      - id: deployment
+        uses: actions/deploy-pages@v5

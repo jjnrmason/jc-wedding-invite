@@ -1,6 +1,7 @@
 # J & C Wedding Invite
 
-The wedding party invite for Joshua & Charlotte, hosted on GitHub Pages from `docs/`.
+The wedding party invite for Joshua & Charlotte, hosted on GitHub Pages. The
+[Deploy workflow](.github/workflows/pages.yml) publishes `docs/` whenever it changes on `main`.
 
 ## How the invite-only access works
 
@@ -24,7 +25,17 @@ The unencrypted source lives in `src/` (git-ignored so it never gets published):
 - `src/index.html` – the invite page
 - `src/images/` – web-optimised images (the script lettering was taken from the design PDF)
 
-Preview it with `python3 -m http.server -d src` and open http://localhost:8000.
+Preview it **unlocked** (while editing):
+
+```bash
+python3 -m http.server 8000 -d src
+```
+
+Preview the **locked** version exactly as guests get it (run `node build.mjs` first):
+
+```bash
+python3 -m http.server 8001 -d docs
+```
 
 ## Publishing a change
 
@@ -32,6 +43,9 @@ Preview it with `python3 -m http.server -d src` and open http://localhost:8000.
 node build.mjs
 git add docs && git commit -m "Update invite" && git push
 ```
+
+Pushing a change to `docs/` triggers the GitHub Action, which checks the page is the
+encrypted version and deploys it (it takes about a minute).
 
 `build.mjs` reads the invite code from `.invite-code` (git-ignored; it creates one the first time)
 or from the `INVITE_CODE` environment variable, and prints the guest link.

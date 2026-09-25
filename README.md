@@ -1,7 +1,6 @@
 # J & C Wedding Invite
 
-The wedding party invite for Joshua & Charlotte, hosted on GitHub Pages. The
-[Deploy workflow](.github/workflows/pages.yml) publishes `docs/` whenever it changes on `main`.
+The wedding party invite for Joshua & Charlotte, hosted on GitHub Pages from the `docs/` folder on `main`.
 
 ## How the invite-only access works
 
@@ -44,8 +43,7 @@ node build.mjs
 git add docs && git commit -m "Update invite" && git push
 ```
 
-Pushing a change to `docs/` triggers the GitHub Action, which checks the page is the
-encrypted version and deploys it (it takes about a minute).
+GitHub Pages republishes automatically about a minute after the push.
 
 `build.mjs` reads the invite code from `.invite-code` (git-ignored; it creates one the first time)
 or from the `INVITE_CODE` environment variable, and prints the guest link.
